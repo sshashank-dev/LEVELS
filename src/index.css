@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@theme {
+    --color-system-bg: #050505;
+    --color-system-accent: #3b82f6;
+    --font-sans: "Inter", system-ui, sans-serif;
+}
+
+@layer base {
+
+    html,
+    body {
+        background-color: #000;
+        color: white;
+        margin: 0;
+        padding: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden !important;
+        position: fixed;
+    }
+}
+
+/* 🛸 THE GLIDE PHYSICS ENGINE */
+.horizontal-glide-container {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    /* Native OS-level momentum */
+    -webkit-overflow-scrolling: touch;
+    /* Magnetic alignment physics */
+    scroll-snap-type: x proximity;
+    gap: 2rem;
+    padding-bottom: 1.5rem;
+    /* Force GPU rendering to prevent lag */
+    will-change: transform;
+}
+
+.glide-item {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+}
+
+/* Glass Header Effect */
+.glass-header {
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(25px) saturate(150%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Kill Scrollbars for Ultra-Clean UI */
+* {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+
+::-webkit-scrollbar {
+    display: none !important;
+}
+
+/* Search Input Focus Physics */
+input[type="text"] {
+    transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+input:focus {
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 0 40px rgba(59, 130, 246, 0.05);
+}
+
+.song-card-shadow {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
