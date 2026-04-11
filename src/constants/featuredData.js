@@ -56,7 +56,7 @@ export const FEATURED_CONTENT = {
             url: encodeURI(`${BASE_URL}/M83 'Midnight City' Official video.mp3`)
         },
         {
-            id: "atm-6", title: "FRIENDS", artist: "Marshmello & Anne-Marie", cover: "https://lh3.googleusercontent.com/lFhQ9nrIvVbqcb67kSGWJc4jeYmtBq7n9fqfVieaHQDTR6vVYy-XGl1JDuVMdQezO-pCYzhMbFpNZBGVJw=w544-h544-l90-rj",
+            id: "atm-6", title: "FRIENDS", artist: "Marshmello & Anne-Marie", cover: "https://images.genius.com/7c3c4d8a383d9870c9bce7b7d7b18d3c.1000x1000x1.jpg",
             url: encodeURI(`${BASE_URL}/Marshmello & Anne-Marie - FRIENDS (Lyric Video) _OFFICIAL FRIENDZONE ANTHEM_.mp3`)
         },
         {

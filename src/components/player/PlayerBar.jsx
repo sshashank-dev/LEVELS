@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Play, Pause, SkipBack, SkipForward, Volume2 } from 'lucide-react';
+import { Play, Pause, SkipBack, SkipForward, Volume2, Heart } from 'lucide-react'; // Added Heart
 import { usePlayerStore } from '../../store/usePlayerStore';
 import { motion } from 'framer-motion';
 
@@ -26,7 +26,8 @@ const useDynamicColor = (imageUrl) => {
 const PlayerBar = () => {
     const {
         currentTrack, isPlaying, togglePlay, playNext, playPrevious,
-        volume, setVolume, howl
+        volume, setVolume, howl,
+        likedSongs, toggleLike // Added from your store
     } = usePlayerStore();
 
     const dynamicColor = useDynamicColor(currentTrack?.cover);
@@ -34,35 +35,28 @@ const PlayerBar = () => {
     const [duration, setDuration] = useState(0);
     const [isDragging, setIsDragging] = useState(false);
 
-    // Use a Ref to track the current position without triggering re-renders 60fps
+    // Check if current track is liked
+    const isLiked = likedSongs?.some(s => s.id === currentTrack?.id);
+
     const timeRef = useRef(0);
 
-    // 1. SYNC DURATION & ATTACH ENGINE EVENTS
     useEffect(() => {
         if (!howl) return;
-
         const updateDuration = () => {
             const d = howl.duration();
             if (d && d !== Infinity) setDuration(d);
         };
-
-        // Attach Howler event listeners
         howl.on('load', updateDuration);
         howl.on('play', updateDuration);
-
-        // Immediate check
         if (howl.state() === 'loaded') updateDuration();
-
         return () => {
             howl.off('load', updateDuration);
             howl.off('play', updateDuration);
         };
     }, [howl]);
 
-    // 2. THE MASTER SYNC LOOP (High Frequency)
     useEffect(() => {
         let interval;
-
         const sync = () => {
             if (howl && howl.playing() && !isDragging) {
                 const seek = howl.seek();
@@ -71,12 +65,9 @@ const PlayerBar = () => {
                 }
             }
         };
-
-        // We use a tight interval for the progress bar to ensure it moves
         if (isPlaying && !isDragging) {
-            interval = setInterval(sync, 100); // Update 10 times per second
+            interval = setInterval(sync, 100);
         }
-
         return () => clearInterval(interval);
     }, [howl, isPlaying, isDragging]);
 
@@ -99,7 +90,6 @@ const PlayerBar = () => {
         if (howl) {
             howl.seek(newPos);
         }
-        // Delay ensures the state updates properly before the interval resumes
         setTimeout(() => setIsDragging(false), 200);
     };
 
@@ -112,7 +102,6 @@ const PlayerBar = () => {
             className="fixed bottom-10 inset-x-0 z-[100] flex justify-center px-6 pointer-events-none"
         >
             <div className="relative group pointer-events-auto">
-                {/* DYNAMIC PROGRESS GLOW */}
                 <div className="absolute -inset-[1.5px] rounded-[3rem] overflow-hidden opacity-40 group-hover:opacity-80 transition-opacity duration-1000">
                     <div
                         className="absolute inset-0 transition-all duration-300"
@@ -150,6 +139,16 @@ const PlayerBar = () => {
                                 {currentTrack.artist}
                             </p>
                         </div>
+
+                        {/* --- NEW LIKE BUTTON --- */}
+                        <motion.button
+                            whileTap={{ scale: 0.7 }}
+                            onClick={() => toggleLike(currentTrack)}
+                            className={`ml-2 transition-colors duration-300 ${isLiked ? 'text-red-500' : 'text-white/20 hover:text-white/60'}`}
+                        >
+                            <Heart size={18} fill={isLiked ? "currentColor" : "none"} strokeWidth={2.5} />
+                        </motion.button>
+                        {/* ----------------------- */}
                     </div>
 
                     {/* CENTER: CONTROLS */}

@@ -18,7 +18,7 @@ const LEGENDS = [
         lifespan: "1993 - 2022",
         // Use this direct link for a high-impact visual
         image: "https://tse2.mm.bing.net/th/id/OIP.yNf5zGFh1KgugO58zk8XyAHaNK?rs=1&pid=ImgDetMain&o=7&rm=3",
-        quote: "Duniya maut nu yaad rakhdi ae, assi maut nu jande haan.",
+        quote: "Duniya maut nu yaad rakhdi ae, assi maut nu jeende haan.",
         bio: "CULTURAL ICON. REDEFINED THE PUNJABI FRONTIER. A GLOBAL FORCE WHOSE SONIC FOOTPRINT REMAINS INDELIBLE IN THE CORE SYSTEM.",
         accent: "border-red-500/50"
     },
